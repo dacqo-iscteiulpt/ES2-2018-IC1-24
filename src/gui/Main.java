@@ -6,17 +6,18 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 
 public class Main {
-
-	private JFrame frame;
+	
+	private static JFrame frame = new JFrame();;
 	private FAQ faq = new FAQ();
 	private Help help = new Help();
 	private Output output = new Output();
 	private Gui gui = new Gui();
-	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					Login login = new Login(frame);
 					Main window = new Main();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -43,13 +44,13 @@ public class Main {
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		
+
 		tabbedPane.addTab("GUI",gui.GuiPanel);
-		
+
 		tabbedPane.addTab("FAQ",faq.faqPanel);
 
 		tabbedPane.addTab("HELP", help.helpPanel);
-		
+
 		tabbedPane.addTab("OUTPUT", output.outputPanel);
 	}
 
