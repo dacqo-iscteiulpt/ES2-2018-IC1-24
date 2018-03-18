@@ -1,25 +1,29 @@
-package gui;
-
-import java.awt.EventQueue;
+package main;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
+import java.awt.*;
+
+import gui.*;
+
 
 public class Main {
-	
-	private static JFrame frame = new JFrame();;
-	private FAQ faq = new FAQ();
-	private Help help = new Help();
-	private Output output = new Output();
-	private Gui gui = new Gui();
+
+	private static JFrame frame = new JFrame();
+	protected static String email = null;
+
+	protected FAQ faq = new FAQ();
+	protected Help help = new Help();
+	protected Output output = new Output();
+	protected Gui gui = new Gui();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Login login = new Login(frame);
+					email = login.getEmail();
 					Main window = new Main();
-					window.frame.setVisible(true);
+					Main.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,5 +57,10 @@ public class Main {
 
 		tabbedPane.addTab("OUTPUT", output.outputPanel);
 	}
+	
+	public static String getEmail() {
+		return email;
+	}
+
 
 }

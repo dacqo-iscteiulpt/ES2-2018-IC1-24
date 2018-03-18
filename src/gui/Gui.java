@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Gui {
 
-	protected JPanel GuiPanel = new JPanel();
+	public JPanel GuiPanel = new JPanel();
 
 	protected JPanel topPanel = new JPanel();
 

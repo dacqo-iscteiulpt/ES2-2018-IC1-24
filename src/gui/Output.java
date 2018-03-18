@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class Output {
 
-	protected JPanel outputPanel = new JPanel();
+	public JPanel outputPanel = new JPanel();
 	
 	public Output() {
 		

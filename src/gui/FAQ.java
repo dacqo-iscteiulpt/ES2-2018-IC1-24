@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class FAQ {
 	
-	protected JPanel faqPanel = new JPanel();
+	public JPanel faqPanel = new JPanel();
 
 	public FAQ() {
 		

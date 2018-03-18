@@ -5,6 +5,12 @@ import javax.swing.*;
 
 public class Login {
 
+	protected String email = null;
+	
+	public String getEmail() {
+		return email;
+	}
+
 	public Login(JFrame frame) {
 		
 		JPanel panel = new JPanel(new BorderLayout(5, 5));
@@ -15,7 +21,7 @@ public class Login {
 		panel.add(label, BorderLayout.WEST);
 
 		JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
-		JTextField username = new JTextField();
+		JTextField username = new JTextField("");
 		username.setPreferredSize(new Dimension(200,50));
 		controls.add(username);
 		JPasswordField password = new JPasswordField();
@@ -27,6 +33,7 @@ public class Login {
 
 		if (n == JOptionPane.YES_OPTION) {
 			System.out.println("Login");
+			email = username.getText();
 		} else if (n == JOptionPane.NO_OPTION) {
 			System.exit(1);;
 		} else if (n == JOptionPane.CLOSED_OPTION) {
