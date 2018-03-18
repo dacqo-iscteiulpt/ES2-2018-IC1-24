@@ -6,9 +6,13 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import jcombocheckbox.JComboCheckBox;
 
 public class Gui {
 
@@ -18,6 +22,8 @@ public class Gui {
 
 	protected JPanel middlePanel = new JPanel();
 	protected JPanel middleLeftPanel = new JPanel();
+	protected JPanel comboBoxPanel = new JPanel();
+	
 	protected JPanel middleRightPanel = new JPanel();
 
 	protected JTable table = new JTable();
@@ -86,41 +92,42 @@ public class Gui {
 		middlePanel.add(configLabel, BorderLayout.NORTH);
 
 		//Right side
-		
+
 		middleRightPanel.setLayout(new BorderLayout());
+		middleRightPanel.setPreferredSize(new Dimension(300,100));
 		String header[] = new String[] { "Name", "Type", "BottomRange", "TopRange" };
 		dtm.setColumnIdentifiers(header);
 		table.setModel(dtm);
-		
+
 		for (int count = 1; count <= 30; count++) {
 			dtm.addRow(new Object[] { "" + count, "type ", "low", "high" });
 		}
-		
+
 		middleRightPanel.add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
 
 		//Left side
 		middleLeftPanel.setLayout(new GridLayout(2, 2));
-		
+
 		JLabel maxWaitTimeLabel = new JLabel("Maximum wait time in minutes");
 		JTextField maxWaitTimeField = new JTextField();
 		JLabel numberOfVariablesLabel = new JLabel("Number of variables");
 		JTextField numberOfVariablesField = new JTextField();
-		
+
 		middleLeftPanel.add(maxWaitTimeLabel);		
 		middleLeftPanel.add(maxWaitTimeField);
-		
+
 		middleLeftPanel.add(numberOfVariablesLabel);		
 		middleLeftPanel.add(numberOfVariablesField);
-		
-		
+
+
 		//SplitPane
-		
+
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				middleLeftPanel, middleRightPanel);
 		splitPane.setDividerLocation(400);
 		splitPane.setResizeWeight(0.5);
-		
+
 		middlePanel.add(splitPane, BorderLayout.CENTER);
 		GuiPanel.add(middlePanel);
 	}
@@ -152,17 +159,43 @@ public class Gui {
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(GuiPanel, "Do you agree that your email can be used\nand stored for"
 						+ " status updates and warnings\nabout the execution? ", "WARNING",
-				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				    // yes option
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					// yes option
 					System.out.println("Start to run the optimization...");
 					/* Todo add unimplemented mehtods */
 				} else {
-				    // do nothing
+					// do nothing
 					JOptionPane.showMessageDialog(GuiPanel, "Please agree to the terms if you want\n"
-														  + "to run the optimization.");
+							+ "to run the optimization.");
 				}
 			}
 		});
+		
+		Vector<JCheckBox> v = new Vector<JCheckBox>();
+		v.add(new JCheckBox("NSGA-II", true));
+		v.add(new JCheckBox("ssNSGA-II", false));
+		v.add(new JCheckBox("NSGAIIr", false));
+		v.add(new JCheckBox("NSGAIIa", false));
+		v.add(new JCheckBox("pNSGA-II", false));
+		v.add(new JCheckBox("AbYSS", false));
+		v.add(new JCheckBox("CellDE", false));
+		v.add(new JCheckBox("dMPOSO", false));
+		v.add(new JCheckBox("GDE3", false));
+		v.add(new JCheckBox("FastPGA", false));
+		v.add(new JCheckBox("IBEA", false));
+		v.add(new JCheckBox("MOCHC", false));
+		v.add(new JCheckBox("MOCell", false));
+		v.add(new JCheckBox("MOEA/D-DE", false));
+		v.add(new JCheckBox("pMOEA/D-DE", false));
+		v.add(new JCheckBox("MOEA/D-DRA", false));
+		v.add(new JCheckBox("OMOPSO", false));
+		v.add(new JCheckBox("PAES", false));
+		v.add(new JCheckBox("SMPSO", false));
+		v.add(new JCheckBox("pSMPSO", false));
+		v.add(new JCheckBox("SMPSOhv", false));
+		v.add(new JCheckBox("SPEA2", false));
+		
+		bottomPanel.add(new JComboCheckBox(v));
 
 		GuiPanel.add(bottomPanel);
 	}
