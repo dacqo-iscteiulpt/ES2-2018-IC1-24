@@ -16,7 +16,6 @@ public class Help {
 	public JPanel helpPanel = new JPanel();
 
 	protected JTextField emailField = new JTextField();
-
 	protected JTextArea description = new JTextArea();
 
 	public Help() {

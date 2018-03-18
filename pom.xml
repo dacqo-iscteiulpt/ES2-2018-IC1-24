@@ -24,5 +24,25 @@
   				<artifactId>javax.mail</artifactId>
   				<version>1.6.1</version>
        	</dependency>
+       	<dependency>
+			<groupId>org.uma.jmetal</groupId>
+			<artifactId>jmetal-core</artifactId>
+			<version>5.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.uma.jmetal</groupId>
+			<artifactId>jmetal-exec</artifactId>
+			<version>5.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.uma.jmetal</groupId>
+			<artifactId>jmetal-problem</artifactId>
+			<version>5.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.uma.jmetal</groupId>
+			<artifactId>jmetal-algorithm</artifactId>
+			<version>5.5</version>
+		</dependency>
   </dependencies>
 </project>

@@ -22,6 +22,7 @@ public class Main {
 				try {
 					Login login = new Login(frame);
 					email = login.getEmail();
+					@SuppressWarnings("unused")
 					Main window = new Main();
 					Main.frame.setVisible(true);
 				} catch (Exception e) {
@@ -54,7 +55,7 @@ public class Main {
 		tabbedPane.addTab("HELP", help.helpPanel);
 		tabbedPane.addTab("OUTPUT", output.outputPanel);
 	}
-	
+
 	public static String getEmail() {
 		return email;
 	}

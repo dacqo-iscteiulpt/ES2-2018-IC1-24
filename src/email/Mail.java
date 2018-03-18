@@ -13,8 +13,6 @@ public class Mail {
 
     public void sendEmail(String email, String description)
     {
-    	if(email.isEmpty())
-    		email = "dqueimado@gmail.com";
         final String username = "dacqoes2@gmail.com";
         final String password = "ZAQ!\"WSX";
 
@@ -38,7 +36,7 @@ public class Mail {
             message.setFrom(new InternetAddress("dacqoES2@gmail.com"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("dacqoes2@gmail.com"));
             message.setSubject("Info regarding help on Project usage...");
-            message.setText("Email from " + email + "regarding help about ES2 project,\n\n" + description + "\n\nThanks");
+            message.setText("Email from " + email + " regarding help about ES2 project,\n\n" + description + "\n\nThanks");
             
             Transport.send(message);
 
