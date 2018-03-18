@@ -10,9 +10,11 @@ import java.io.Serializable;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import jcombocheckbox.JComboCheckBox;
+import xml.XmlReader;
 
 public class Gui {
 
@@ -23,12 +25,12 @@ public class Gui {
 	protected JPanel middlePanel = new JPanel();
 	protected JPanel middleLeftPanel = new JPanel();
 	protected JPanel comboBoxPanel = new JPanel();
-	
+
 	protected JPanel middleRightPanel = new JPanel();
 
 	protected JTable table = new JTable();
-	protected DefaultTableModel dtm = new DefaultTableModel(0, 0);
-
+	protected DefaultTableModel dtm = new DefaultTableModel();
+	protected Object[][] tabledata = new Object[30][4];
 
 	protected JPanel bottomPanel = new JPanel();
 	protected JButton saveToXML = new JButton("Save to XML");
@@ -59,22 +61,24 @@ public class Gui {
 		topFields.add(problemNameLabel);
 		topFields.add(problemNameField);
 
-		JLabel problemDescLabel = new JLabel("Problem Description: ");
+		JLabel problemDescLabel = new JLabel("Small Problem Description: ");
+		topFields.add(problemDescLabel);
 		JTextArea problemDescArea = new JTextArea();
 		problemDescArea.setLineWrap(true);
+		problemDescArea.setWrapStyleWord(true);
 		problemDescArea.setPreferredSize(new Dimension(200, 50));
-		topFields.add(problemDescLabel);
 		topFields.add(problemDescArea);
 
 		JLabel emailLabel = new JLabel("Email: ");
-		JTextField emailField = new JTextField();
+		JTextField emailField = new JTextField(main.Main.getEmail() + "@gmail.com");
 		emailField.setPreferredSize(new Dimension(200, 30));
 		topFields.add(emailLabel);
 		topFields.add(emailField);
 
 		JLabel nameLabel = new JLabel("Name: ");
-		JTextField nameField = new JTextField();
+		JTextField nameField = new JTextField(main.Main.getEmail());
 		nameField.setPreferredSize(new Dimension(200, 30));
+		nameField.setEnabled(false);
 		topFields.add(nameLabel);
 		topFields.add(nameField);
 
@@ -100,7 +104,11 @@ public class Gui {
 		table.setModel(dtm);
 
 		for (int count = 1; count <= 30; count++) {
-			dtm.addRow(new Object[] { "" + count, "type ", "low", "high" });
+			tabledata[count-1][0] = "Regra"+count;
+			tabledata[count-1][1] = "Tipo";
+			tabledata[count-1][2] = "low";
+			tabledata[count-1][3] = "high";
+			dtm.addRow(tabledata[count-1]);
 		}
 
 		middleRightPanel.add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -111,8 +119,20 @@ public class Gui {
 
 		JLabel maxWaitTimeLabel = new JLabel("Maximum wait time in minutes");
 		JTextField maxWaitTimeField = new JTextField();
+		maxWaitTimeField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Max wait time: " + maxWaitTimeField.getText());
+			}
+		});
+
 		JLabel numberOfVariablesLabel = new JLabel("Number of variables");
 		JTextField numberOfVariablesField = new JTextField();
+		numberOfVariablesField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				System.out.println("Number of variables: " + numberOfVariablesField.getText());
+				resizeTable(Integer.parseInt(numberOfVariablesField.getText()));
+			}
+		});
 
 		middleLeftPanel.add(maxWaitTimeLabel);		
 		middleLeftPanel.add(maxWaitTimeField);
@@ -170,7 +190,7 @@ public class Gui {
 				}
 			}
 		});
-		
+
 		Vector<JCheckBox> v = new Vector<JCheckBox>();
 		v.add(new JCheckBox("NSGA-II", true));
 		v.add(new JCheckBox("ssNSGA-II", false));
@@ -194,7 +214,7 @@ public class Gui {
 		v.add(new JCheckBox("pSMPSO", false));
 		v.add(new JCheckBox("SMPSOhv", false));
 		v.add(new JCheckBox("SPEA2", false));
-		
+
 		bottomPanel.add(new JComboCheckBox(v));
 
 		GuiPanel.add(bottomPanel);
@@ -202,14 +222,50 @@ public class Gui {
 
 
 	protected void SaveToXML() {
-		// TODO Auto-generated method stub
 
 	}
 	protected void LoadFromXML() {
-		// TODO Auto-generated method stub
-
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				"XML Files", "xml");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(null);
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			System.out.println("You chose to open this file: " +
+					chooser.getSelectedFile().getName());
+			System.out.println(chooser.getSelectedFile().getPath());
+			XmlReader xml = new XmlReader(chooser.getSelectedFile().getPath());
+		}
 	}
 
+	protected void resizeTable(int rows) {
 
+		for (int i = dtm.getRowCount() - 1; i > -1; i--) {
+			dtm.removeRow(i);
+		}
+		
+		Object[][] tableDataTemp = new Object[rows][4];
+		for (int count = 1; count <= rows; count++) {
+			tableDataTemp[count-1][0] = "Regra"+count;
+			tableDataTemp[count-1][1] = "Tipo";
+			tableDataTemp[count-1][2] = "low";
+			tableDataTemp[count-1][3] = "high";
+		}
+		for(int count = 0; count < tableDataTemp.length; count++) {
+			dtm.addRow(tableDataTemp[count]);
+		}
+		
+//		for(int count = 0; count < tabledata.length; count++) {
+//			tableDataTemp[count][0] = tabledata[count][0];
+//			tableDataTemp[count][1] = tabledata[count][1];
+//			tableDataTemp[count][2] = tabledata[count][2];
+//			tableDataTemp[count][3] = tabledata[count][3];
+//		}
 
+//		for (int count = 1; count <= rows; count++) {
+//			dtm.addRow(tableDataTemp[count]);
+//		}
+	
+		dtm.fireTableDataChanged();
+	}
 }
