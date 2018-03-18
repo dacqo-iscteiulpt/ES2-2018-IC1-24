@@ -36,9 +36,9 @@ public class Mail {
 
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("dacqoES2@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("dacqoes2@gmail.com"));
             message.setSubject("Info regarding help on Project usage...");
-            message.setText("Email regarding help about ES2 project,\n\n" + description + "\n\nThanks");
+            message.setText("Email from " + email + "regarding help about ES2 project,\n\n" + description + "\n\nThanks");
             
             Transport.send(message);
 

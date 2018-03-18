@@ -50,11 +50,8 @@ public class Main {
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
 		tabbedPane.addTab("GUI",gui.GuiPanel);
-
 		tabbedPane.addTab("FAQ",faq.faqPanel);
-
 		tabbedPane.addTab("HELP", help.helpPanel);
-
 		tabbedPane.addTab("OUTPUT", output.outputPanel);
 	}
 	

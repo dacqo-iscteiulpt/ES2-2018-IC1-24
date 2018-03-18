@@ -88,7 +88,7 @@ public class Gui {
 		//Right side
 		
 		middleRightPanel.setLayout(new BorderLayout());
-		String header[] = new String[] { "Variables", "Type", "BottomRange", "TopRange" };
+		String header[] = new String[] { "Name", "Type", "BottomRange", "TopRange" };
 		dtm.setColumnIdentifiers(header);
 		table.setModel(dtm);
 		
@@ -150,8 +150,17 @@ public class Gui {
 		run.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Start to run the optimization...");
-				/* Todo add unimplemented mehtods */
+				if (JOptionPane.showConfirmDialog(GuiPanel, "Do you agree that your email can be used\nand stored for"
+						+ " status updates and warnings\nabout the execution? ", "WARNING",
+				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				    // yes option
+					System.out.println("Start to run the optimization...");
+					/* Todo add unimplemented mehtods */
+				} else {
+				    // do nothing
+					JOptionPane.showMessageDialog(GuiPanel, "Please agree to the terms if you want\n"
+														  + "to run the optimization.");
+				}
 			}
 		});
 
