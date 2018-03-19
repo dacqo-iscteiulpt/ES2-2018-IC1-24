@@ -30,7 +30,7 @@ public class Gui {
 
 	protected JTable table = new JTable();
 	protected DefaultTableModel dtm = new DefaultTableModel();
-	protected Object[][] tabledata = new Object[30][4];
+	protected Object[][] tabledata = new Object[30][6];
 
 	protected JPanel bottomPanel = new JPanel();
 	protected JButton saveToXML = new JButton("Save to XML");
@@ -99,7 +99,7 @@ public class Gui {
 
 		middleRightPanel.setLayout(new BorderLayout());
 		middleRightPanel.setPreferredSize(new Dimension(300,100));
-		String header[] = new String[] { "Name", "Type", "BottomRange", "TopRange" };
+		String header[] = new String[] { "Name", "Type", "BottomRange", "TopRange", "Value", "Jar Path" };
 		dtm.setColumnIdentifiers(header);
 		table.setModel(dtm);
 
@@ -108,16 +108,18 @@ public class Gui {
 			tabledata[count-1][1] = "Tipo";
 			tabledata[count-1][2] = "low";
 			tabledata[count-1][3] = "high";
+			tabledata[count-1][4] = "value";
+			tabledata[count-1][5] = "path";
 			dtm.addRow(tabledata[count-1]);
 		}
 
 		middleRightPanel.add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
 		//Left side
 		middleLeftPanel.setLayout(new GridLayout(2, 2));
 
-		JLabel maxWaitTimeLabel = new JLabel("Maximum wait time in minutes");
+		JLabel maxWaitTimeLabel = new JLabel("Maximum wait time");
 		JTextField maxWaitTimeField = new JTextField();
 		maxWaitTimeField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -244,12 +246,14 @@ public class Gui {
 			dtm.removeRow(i);
 		}
 		
-		Object[][] tableDataTemp = new Object[rows][4];
+		Object[][] tableDataTemp = new Object[rows][6];
 		for (int count = 1; count <= rows; count++) {
 			tableDataTemp[count-1][0] = "Regra"+count;
 			tableDataTemp[count-1][1] = "Tipo";
 			tableDataTemp[count-1][2] = "low";
 			tableDataTemp[count-1][3] = "high";
+			tableDataTemp[count-1][4] = "value";
+			tableDataTemp[count-1][5] = "path";
 		}
 		for(int count = 0; count < tableDataTemp.length; count++) {
 			dtm.addRow(tableDataTemp[count]);
