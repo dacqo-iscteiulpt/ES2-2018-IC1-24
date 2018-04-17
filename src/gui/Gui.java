@@ -28,11 +28,18 @@ public class Gui {
 
 	protected JPanel middleRightPanel = new JPanel();
 
-	protected JTable table = new JTable();
-	protected DefaultTableModel dtm = new DefaultTableModel();
-	protected Object[][] tabledata = new Object[30][4];
+	protected JTable table1 = new JTable();
+	protected DefaultTableModel dtm1 = new DefaultTableModel();
+	protected Object[][] tabledata1 = new Object[30][4];
 
 	protected JPanel bottomPanel = new JPanel();
+	protected JPanel bottomRightPanel = new JPanel();
+	protected JPanel bottomLeftPanel = new JPanel();
+	
+	protected JTable table2 = new JTable();
+	protected DefaultTableModel dtm2 = new DefaultTableModel();
+	protected Object[][] tabledata2 = new Object[5][5];
+	
 	protected JButton saveToXML = new JButton("Save to XML");
 	protected JButton loadFromXML = new JButton("Load from XML");
 	protected JButton run = new JButton("RUN");	
@@ -100,18 +107,18 @@ public class Gui {
 		middleRightPanel.setLayout(new BorderLayout());
 		middleRightPanel.setPreferredSize(new Dimension(300,100));
 		String header[] = new String[] { "Name", "Type", "BottomRange", "TopRange" };
-		dtm.setColumnIdentifiers(header);
-		table.setModel(dtm);
+		dtm1.setColumnIdentifiers(header);
+		table1.setModel(dtm1);
 
 		for (int count = 1; count <= 30; count++) {
-			tabledata[count-1][0] = "Regra"+count;
-			tabledata[count-1][1] = "Tipo";
-			tabledata[count-1][2] = "low";
-			tabledata[count-1][3] = "high";
-			dtm.addRow(tabledata[count-1]);
+			tabledata1[count-1][0] = "Regra"+count;
+			tabledata1[count-1][1] = "Tipo";
+			tabledata1[count-1][2] = "low";
+			tabledata1[count-1][3] = "high";
+			dtm1.addRow(tabledata1[count-1]);
 		}
 
-		middleRightPanel.add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		middleRightPanel.add(new JScrollPane(table1, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
 		//Left side
@@ -153,9 +160,30 @@ public class Gui {
 	}
 
 	private void buildBottomPanel() {
-		bottomPanel.setLayout(new FlowLayout());
+		bottomPanel.setLayout(new GridLayout(1, 2));
+		
+		//Bottom left Panel
+		
+		bottomLeftPanel.setPreferredSize(new Dimension(300,100));
+		String header[] = new String[] { "Name", "Tipo", "Bottom Range", "Top Range" , "Jar Path" };
+		dtm2.setColumnIdentifiers(header);
+		table2.setModel(dtm2);
 
-		bottomPanel.add(saveToXML);
+		for (int count = 1; count <= 5; count++) {
+			tabledata2[count-1][0] = "Name";
+			tabledata2[count-1][1] = "Tipo";
+			tabledata2[count-1][2] = "Low";
+			tabledata2[count-1][3] = "High";
+			tabledata2[count-1][4] = "Path";
+			dtm2.addRow(tabledata2[count-1]);
+		}
+		table2.setPreferredSize(null);
+		bottomLeftPanel.add(new JScrollPane(table2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS), BorderLayout.CENTER);
+
+		bottomRightPanel.setPreferredSize(new Dimension(200,100));
+		bottomRightPanel.setLayout(new GridLayout(2,2));
+		bottomRightPanel.add(saveToXML);
 		saveToXML.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -164,33 +192,15 @@ public class Gui {
 		});
 
 
-		bottomPanel.add(loadFromXML);
+		bottomRightPanel.add(loadFromXML);
 		loadFromXML.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				LoadFromXML();
 			}
 		});
-
-
-		bottomPanel.add(run);
-		run.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(GuiPanel, "Do you agree that your email can be used\nand stored for"
-						+ " status updates and warnings\nabout the execution? ", "WARNING",
-						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					// yes option
-					System.out.println("Start to run the optimization...");
-					/* Todo add unimplemented mehtods */
-				} else {
-					// do nothing
-					JOptionPane.showMessageDialog(GuiPanel, "Please agree to the terms if you want\n"
-							+ "to run the optimization.");
-				}
-			}
-		});
-
+		
+		
 		Vector<JCheckBox> v = new Vector<JCheckBox>();
 		v.add(new JCheckBox("NSGA-II", true));
 		v.add(new JCheckBox("ssNSGA-II", false));
@@ -215,8 +225,35 @@ public class Gui {
 		v.add(new JCheckBox("SMPSOhv", false));
 		v.add(new JCheckBox("SPEA2", false));
 
-		bottomPanel.add(new JComboCheckBox(v));
+		bottomRightPanel.add(new JComboCheckBox(v));
+		
+		
+		bottomRightPanel.add(run);
+		run.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(GuiPanel, "Do you agree that your email can be used\nand stored for"
+						+ " status updates and warnings\nabout the execution? ", "WARNING",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					// yes option
+					System.out.println("Start to run the optimization...");
+					/* Todo add unimplemented mehtods */
+				} else {
+					// do nothing
+					JOptionPane.showMessageDialog(GuiPanel, "Please agree to the terms if you want\n"
+							+ "to run the optimization.");
+				}
+			}
+		});
+		
+		//Split pane
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				bottomLeftPanel, bottomRightPanel);
+		splitPane.setDividerLocation(500);
+		splitPane.setResizeWeight(0.5);
 
+		bottomPanel.add(splitPane, BorderLayout.CENTER);
 		GuiPanel.add(bottomPanel);
 	}
 
@@ -240,8 +277,8 @@ public class Gui {
 
 	protected void resizeTable(int rows) {
 
-		for (int i = dtm.getRowCount() - 1; i > -1; i--) {
-			dtm.removeRow(i);
+		for (int i = dtm1.getRowCount() - 1; i > -1; i--) {
+			dtm1.removeRow(i);
 		}
 		
 		Object[][] tableDataTemp = new Object[rows][6];
@@ -252,20 +289,9 @@ public class Gui {
 			tableDataTemp[count-1][3] = "high";
 		}
 		for(int count = 0; count < tableDataTemp.length; count++) {
-			dtm.addRow(tableDataTemp[count]);
+			dtm1.addRow(tableDataTemp[count]);
 		}
-		
-//		for(int count = 0; count < tabledata.length; count++) {
-//			tableDataTemp[count][0] = tabledata[count][0];
-//			tableDataTemp[count][1] = tabledata[count][1];
-//			tableDataTemp[count][2] = tabledata[count][2];
-//			tableDataTemp[count][3] = tabledata[count][3];
-//		}
-
-//		for (int count = 1; count <= rows; count++) {
-//			dtm.addRow(tableDataTemp[count]);
-//		}
 	
-		dtm.fireTableDataChanged();
+		dtm1.fireTableDataChanged();
 	}
 }

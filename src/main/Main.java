@@ -54,6 +54,7 @@ public class Main {
 		tabbedPane.addTab("FAQ",faq.faqPanel);
 		tabbedPane.addTab("HELP", help.helpPanel);
 		tabbedPane.addTab("OUTPUT", output.outputPanel);
+		frame.pack();
 	}
 
 	public static String getEmail() {
