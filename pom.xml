@@ -44,5 +44,10 @@
 			<artifactId>jmetal-algorithm</artifactId>
 			<version>5.5</version>
 		</dependency>
+		<dependency>
+			<groupId>com.jcabi.incubator</groupId>
+			<artifactId>xembly</artifactId>
+			<version>0.22</version>
+		</dependency>
   </dependencies>
 </project>
