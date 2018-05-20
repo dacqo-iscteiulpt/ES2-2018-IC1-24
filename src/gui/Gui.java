@@ -9,7 +9,17 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -273,7 +283,8 @@ public class Gui {
 			System.out.println("You chose to open this file: " +
 					chooser.getSelectedFile().getName());
 			System.out.println(chooser.getSelectedFile().getPath());
-			XmlReader xml = new XmlReader(chooser.getSelectedFile().getPath());
+//			XmlReader xml = new XmlReader(chooser.getSelectedFile().getPath());
+			XmlReader xml = new XmlReader();
 		}
 	}
 
