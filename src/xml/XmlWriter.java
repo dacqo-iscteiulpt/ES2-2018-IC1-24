@@ -38,10 +38,7 @@ public class XmlWriter {
 			for(int i = 0; i < dtm2.getRowCount(); i++) {
 				directives.add("jar" + i);
 				directives.add("objName").set(dtm2.getValueAt(i, 0)).up();
-				directives.add("objType").set(dtm2.getValueAt(i, 1)).up();
-				directives.add("topRange").set(dtm2.getValueAt(i, 2)).up();
-				directives.add("bottomRange").set(dtm2.getValueAt(i, 3)).up();
-				directives.add("jarPath").set(dtm2.getValueAt(i, 4)).up();
+				directives.add("jarPath").set(dtm2.getValueAt(i, 1)).up();
 				directives.up();
 			}
 
