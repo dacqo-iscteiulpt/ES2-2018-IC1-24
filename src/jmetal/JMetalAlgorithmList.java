@@ -7,10 +7,6 @@ public class JMetalAlgorithmList {
 	
 	protected final String PATH = "/Users/Ltfx/.m2/repository/org/uma/jmetal/jmetal-algorithm/5.5/";
 
-	public static void main(String[] args) {
-		
-	}
-	
 	public JMetalAlgorithmList() {
 		File folder = new File(PATH);
 		File[] listOfFiles = folder.listFiles();{
