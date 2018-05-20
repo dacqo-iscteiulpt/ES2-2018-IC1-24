@@ -293,7 +293,7 @@ public class Gui {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
 			System.out.println(chooser.getSelectedFile().getPath());
-			XmlReader xml = new XmlReader(chooser.getSelectedFile().getPath());
+			XmlReader xml = new XmlReader();
 		}
 	}
 

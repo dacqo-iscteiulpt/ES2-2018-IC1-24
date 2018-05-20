@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<data>
+<specifications>
+<problemName>Problem1</problemName>
+<problemDesc>This is a problem description</problemDesc>
+<problemEmail>@gmail.com</problemEmail>
+</specifications>
+<configuration>
+<intMaxWaitTime>100000</intMaxWaitTime>
+<variableNumber>1</variableNumber>
+</configuration>
+<variables>
+<variable0>
+<variableName>Regra1</variableName>
+<variableType>integer</variableType>
+<bottomRange>-5</bottomRange>
+<topRange>5</topRange>
+</variable0>
+</variables>
+<jarsTable>
+<jar0>
+<objName>Name</objName>
+<jarPath>c:\\NMMin</jarPath>
+</jar0>
+<jar1>
+<objName>Name</objName>
+<jarPath>Path</jarPath>
+</jar1>
+<jar2>
+<objName>Name</objName>
+<jarPath>Path</jarPath>
+</jar2>
+</jarsTable>
+</data>
