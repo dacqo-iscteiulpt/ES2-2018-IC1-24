@@ -2,11 +2,11 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Serializable;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -15,12 +15,21 @@ import javax.swing.table.DefaultTableModel;
 
 import jcombocheckbox.JComboCheckBox;
 import xml.XmlReader;
+import xml.XmlWriter;
 
 public class Gui {
 
 	public JPanel GuiPanel = new JPanel();
 
 	protected JPanel topPanel = new JPanel();
+	protected JLabel problemNameLabel = new JLabel("Problem name: ");
+	protected JTextField problemNameField = new JTextField("Problem1");
+	protected JLabel emailLabel = new JLabel("Email: ");
+	protected JTextField emailField = new JTextField(main.Main.getEmail() + "@gmail.com");
+	protected JLabel nameLabel = new JLabel("Name: ");
+	protected JTextField nameField = new JTextField(main.Main.getEmail());
+	protected JLabel problemDescLabel = new JLabel("Small Problem Description: ");
+	protected JTextArea problemDescArea = new JTextArea("This is a problem description");
 
 	protected JPanel middlePanel = new JPanel();
 	protected JPanel middleLeftPanel = new JPanel();
@@ -28,6 +37,11 @@ public class Gui {
 
 	protected JPanel middleRightPanel = new JPanel();
 
+	protected JLabel numberOfVariablesLabel = new JLabel("Number of variables");
+	protected JTextField numberOfVariablesField = new JTextField("30");
+	protected JLabel maxWaitTimeLabel = new JLabel("Maximum wait time");
+	protected JTextField maxWaitTimeField = new JTextField("100000");
+	
 	protected JTable table1 = new JTable();
 	protected DefaultTableModel dtm1 = new DefaultTableModel();
 	protected Object[][] tabledata1 = new Object[30][4];
@@ -62,28 +76,20 @@ public class Gui {
 		JPanel topFields = new JPanel();
 		topFields.setLayout(new GridLayout(2, 2));
 
-		JLabel problemNameLabel = new JLabel("Problem name: ");
-		JTextField problemNameField = new JTextField();
 		problemNameField.setPreferredSize(new Dimension(200, 30));
 		topFields.add(problemNameLabel);
 		topFields.add(problemNameField);
 
-		JLabel problemDescLabel = new JLabel("Small Problem Description: ");
 		topFields.add(problemDescLabel);
-		JTextArea problemDescArea = new JTextArea();
 		problemDescArea.setLineWrap(true);
 		problemDescArea.setWrapStyleWord(true);
 		problemDescArea.setPreferredSize(new Dimension(200, 50));
 		topFields.add(problemDescArea);
 
-		JLabel emailLabel = new JLabel("Email: ");
-		JTextField emailField = new JTextField(main.Main.getEmail() + "@gmail.com");
 		emailField.setPreferredSize(new Dimension(200, 30));
 		topFields.add(emailLabel);
 		topFields.add(emailField);
 
-		JLabel nameLabel = new JLabel("Name: ");
-		JTextField nameField = new JTextField(main.Main.getEmail());
 		nameField.setPreferredSize(new Dimension(200, 30));
 		nameField.setEnabled(false);
 		topFields.add(nameLabel);
@@ -113,8 +119,8 @@ public class Gui {
 		for (int count = 1; count <= 30; count++) {
 			tabledata1[count-1][0] = "Regra"+count;
 			tabledata1[count-1][1] = "Tipo";
-			tabledata1[count-1][2] = "low";
-			tabledata1[count-1][3] = "high";
+			tabledata1[count-1][2] = "0";
+			tabledata1[count-1][3] = "5";
 			dtm1.addRow(tabledata1[count-1]);
 		}
 
@@ -124,16 +130,12 @@ public class Gui {
 		//Left side
 		middleLeftPanel.setLayout(new GridLayout(2, 2));
 
-		JLabel maxWaitTimeLabel = new JLabel("Maximum wait time");
-		JTextField maxWaitTimeField = new JTextField();
 		maxWaitTimeField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Max wait time: " + maxWaitTimeField.getText());
 			}
 		});
 
-		JLabel numberOfVariablesLabel = new JLabel("Number of variables");
-		JTextField numberOfVariablesField = new JTextField();
 		numberOfVariablesField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				System.out.println("Number of variables: " + numberOfVariablesField.getText());
@@ -259,8 +261,22 @@ public class Gui {
 
 
 	protected void SaveToXML() {
-
+		String timeString = LocalDateTime.now().getYear() + "_" +
+							LocalDateTime.now().getMonthValue() + "_" +
+							LocalDateTime.now().getDayOfMonth() + "_" +
+							LocalDateTime.now().getHour() + "_" +
+							LocalDateTime.now().getMinute() + "_" +
+							LocalDateTime.now().getSecond() ;
+		
+		System.out.println(timeString);
+		try {
+			XmlWriter x = new XmlWriter(problemNameField.getText() + timeString, problemNameField.getText(), problemDescArea.getText(), emailField.getText(), Integer.parseInt(maxWaitTimeField.getText()), Integer.parseInt(numberOfVariablesField.getText()), dtm1, dtm2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
 	protected void LoadFromXML() {
 		JFileChooser chooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -281,12 +297,12 @@ public class Gui {
 			dtm1.removeRow(i);
 		}
 		
-		Object[][] tableDataTemp = new Object[rows][6];
+		Object[][] tableDataTemp = new Object[rows][4];
 		for (int count = 1; count <= rows; count++) {
 			tableDataTemp[count-1][0] = "Regra"+count;
 			tableDataTemp[count-1][1] = "Tipo";
-			tableDataTemp[count-1][2] = "low";
-			tableDataTemp[count-1][3] = "high";
+			tableDataTemp[count-1][2] = "0";
+			tableDataTemp[count-1][3] = "5";
 		}
 		for(int count = 0; count < tableDataTemp.length; count++) {
 			dtm1.addRow(tableDataTemp[count]);

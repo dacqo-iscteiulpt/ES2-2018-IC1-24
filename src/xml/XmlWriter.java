@@ -1,83 +1,59 @@
-//package xml;
-//
-//import java.io.File;
-//import javax.xml.parsers.DocumentBuilder;
-//import javax.xml.parsers.DocumentBuilderFactory;
-//import javax.xml.parsers.ParserConfigurationException;
-//import javax.xml.transform.OutputKeys;
-//import javax.xml.transform.Transformer;
-//import javax.xml.transform.TransformerException;
-//import javax.xml.transform.TransformerFactory;
-//import javax.xml.transform.dom.DOMSource;
-//import javax.xml.transform.stream.StreamResult;
-//
-//import org.w3c.dom.Attr;
-//import org.w3c.dom.Document;
-//import org.w3c.dom.Element;
-//
-//public class XmlWriter {
-//
-//	public XmlWriter() {
-//		try {
-//
-//			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-//			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-//
-//			// root elements
-//			Document doc = docBuilder.newDocument();
-//			Element rootElement = doc.createElement("company");
-//			doc.appendChild(rootElement);
-//
-//			// staff elements
-//			Element staff = doc.createElement("Staff");
-//			rootElement.appendChild(staff);
-//
-//			// set attribute to staff element
-//			Attr attr = doc.createAttribute("id");
-//			attr.setValue("1");
-//			staff.setAttributeNode(attr);
-//
-//			// shorten way
-//			// staff.setAttribute("id", "1");
-//
-//			// firstname elements
-//			Element firstname = doc.createElement("firstname");
-//			firstname.appendChild(doc.createTextNode("yong"));
-//			staff.appendChild(firstname);
-//
-//			// lastname elements
-//			Element lastname = doc.createElement("lastname");
-//			lastname.appendChild(doc.createTextNode("mook kim"));
-//			staff.appendChild(lastname);
-//
-//			// nickname elements
-//			Element nickname = doc.createElement("nickname");
-//			nickname.appendChild(doc.createTextNode("mkyong"));
-//			staff.appendChild(nickname);
-//
-//			// salary elements
-//			Element salary = doc.createElement("salary");
-//			salary.appendChild(doc.createTextNode("100000"));
-//			staff.appendChild(salary);
-//
-//			// write the content into xml file
-//			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//			Transformer transformer = transformerFactory.newTransformer();
-//			DOMSource source = new DOMSource(doc);
-//			StreamResult result = new StreamResult(new File("C:\\file.xml"));
-//
-//			// Output to console for testing
-//			// StreamResult result = new StreamResult(System.out);
-//			
-//			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//			transformer.transform(source, result);
-//
-//			System.out.println("File saved!");
-//
-//		} catch (ParserConfigurationException pce) {
-//			pce.printStackTrace();
-//		} catch (TransformerException tfe) {
-//			tfe.printStackTrace();
-//		}
-//	}
-//}
+package xml;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
+import javax.swing.table.DefaultTableModel;
+
+import org.xembly.*;
+
+
+public class XmlWriter {
+	public XmlWriter(String filename, String name, String description, String email,int maxWaitTime, int varNumber, DefaultTableModel dtm, DefaultTableModel dtm2) throws IOException {
+
+		try (PrintStream out = new PrintStream(new FileOutputStream(filename + ".xml"))) {
+
+			Directives directives = new Directives().add("data");
+			directives.add("specifications");
+			directives.add("problemName").set(name).up();
+			directives.add("problemDesc").set(description).up();
+			directives.add("problemEmail").set(email).up();
+			directives.up();
+			directives.add("configuration");
+			directives.add("intMaxWaitTime").set(maxWaitTime).up();
+			directives.add("variableNumber").set(varNumber).up();
+			directives.up();
+			directives.add("variables");
+			for(int i = 0; i < dtm.getRowCount(); i++) {
+				directives.add("variable"+ i);
+				directives.add("variableName").set(dtm.getValueAt(i, 0)).up();
+				directives.add("variableType").set(dtm.getValueAt(i, 1)).up();
+				directives.add("bottomRange").set(dtm.getValueAt(i, 2)).up();
+				directives.add("topRange").set(dtm.getValueAt(i, 3)).up();
+				directives.up();
+			}
+			directives.up();
+			directives.add("jarsTable");
+			for(int i = 0; i < dtm2.getRowCount(); i++) {
+				directives.add("jar" + i);
+				directives.add("objName").set(dtm2.getValueAt(i, 0)).up();
+				directives.add("objType").set(dtm2.getValueAt(i, 1)).up();
+				directives.add("topRange").set(dtm2.getValueAt(i, 2)).up();
+				directives.add("bottomRange").set(dtm2.getValueAt(i, 3)).up();
+				directives.add("jarPath").set(dtm2.getValueAt(i, 4)).up();
+				directives.up();
+			}
+
+			try {
+				System.out.println(new Xembler(directives).xml());
+				out.print(new Xembler(directives).xml());
+			} catch (ImpossibleModificationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			out.flush();
+			out.close();
+		}
+	}
+}
