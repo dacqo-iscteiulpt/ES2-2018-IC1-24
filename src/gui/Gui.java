@@ -167,16 +167,13 @@ public class Gui {
 		//Bottom left Panel
 		
 		bottomLeftPanel.setPreferredSize(new Dimension(300,100));
-		String header[] = new String[] { "Name", "Tipo", "Bottom Range", "Top Range" , "Jar Path" };
+		String header[] = new String[] { "Name", "Jar Path" };
 		dtm2.setColumnIdentifiers(header);
 		table2.setModel(dtm2);
 
-		for (int count = 1; count <= 5; count++) {
+		for (int count = 1; count <= 3; count++) {
 			tabledata2[count-1][0] = "Name";
-			tabledata2[count-1][1] = "Tipo";
-			tabledata2[count-1][2] = "Low";
-			tabledata2[count-1][3] = "High";
-			tabledata2[count-1][4] = "Path";
+			tabledata2[count-1][1] = "Path";
 			dtm2.addRow(tabledata2[count-1]);
 		}
 		table2.setPreferredSize(null);
@@ -204,29 +201,17 @@ public class Gui {
 		
 		
 		Vector<JCheckBox> v = new Vector<JCheckBox>();
-		v.add(new JCheckBox("NSGA-II", true));
-		v.add(new JCheckBox("ssNSGA-II", false));
-		v.add(new JCheckBox("NSGAIIr", false));
-		v.add(new JCheckBox("NSGAIIa", false));
-		v.add(new JCheckBox("pNSGA-II", false));
-		v.add(new JCheckBox("AbYSS", false));
-		v.add(new JCheckBox("CellDE", false));
-		v.add(new JCheckBox("dMPOSO", false));
+		v.add(new JCheckBox("NSGAII", true));
+		v.add(new JCheckBox("SMSESOA", false));
 		v.add(new JCheckBox("GDE3", false));
-		v.add(new JCheckBox("FastPGA", false));
 		v.add(new JCheckBox("IBEA", false));
-		v.add(new JCheckBox("MOCHC", false));
 		v.add(new JCheckBox("MOCell", false));
-		v.add(new JCheckBox("MOEA/D-DE", false));
-		v.add(new JCheckBox("pMOEA/D-DE", false));
-		v.add(new JCheckBox("MOEA/D-DRA", false));
-		v.add(new JCheckBox("OMOPSO", false));
+		v.add(new JCheckBox("MOEAD", false));
 		v.add(new JCheckBox("PAES", false));
-		v.add(new JCheckBox("SMPSO", false));
-		v.add(new JCheckBox("pSMPSO", false));
-		v.add(new JCheckBox("SMPSOhv", false));
+		v.add(new JCheckBox("RandomSearch", false));
+		v.add(new JCheckBox("MOCH", false));
 		v.add(new JCheckBox("SPEA2", false));
-
+		
 		bottomRightPanel.add(new JComboCheckBox(v));
 		
 		
@@ -240,6 +225,7 @@ public class Gui {
 					// yes option
 					System.out.println("Start to run the optimization...");
 					/* Todo add unimplemented mehtods */
+					
 				} else {
 					// do nothing
 					JOptionPane.showMessageDialog(GuiPanel, "Please agree to the terms if you want\n"
