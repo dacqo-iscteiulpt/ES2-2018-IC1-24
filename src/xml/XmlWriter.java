@@ -43,7 +43,7 @@ public class XmlWriter {
 			}
 
 			try {
-				System.out.println(new Xembler(directives).xml());
+//				System.out.println(new Xembler(directives).xml());
 				out.print(new Xembler(directives).xml());
 			} catch (ImpossibleModificationException e) {
 				// TODO Auto-generated catch block

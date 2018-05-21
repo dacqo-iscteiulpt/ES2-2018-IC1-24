@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 
 import jcombocheckbox.JComboCheckBox;
 import jmetal.ExperimentsIntegerExternalViaJAR;
+import xml.Jar;
+import xml.Regra;
 import xml.XmlReader;
 import xml.XmlWriter;
 
@@ -154,7 +156,8 @@ public class Gui {
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("Number of variables: " +
 				// numberOfVariablesField.getText());
-				resizeTable(Integer.parseInt(numberOfVariablesField.getText()));
+				if( Integer.parseInt(numberOfVariablesField.getText())> 0)
+					resizeTable(Integer.parseInt(numberOfVariablesField.getText()));
 			}
 		});
 
@@ -239,7 +242,7 @@ public class Gui {
 				if (JOptionPane.showConfirmDialog(GuiPanel,
 						"Do you agree that your email can be used\nand stored for"
 								+ " status updates and warnings\nabout the execution? ",
-						"WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+								"WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					// yes option
 					System.out.println("Start to run the optimization...");
 					/* Todo add unimplemented mehtods */
@@ -294,6 +297,48 @@ public class Gui {
 			System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
 			System.out.println(chooser.getSelectedFile().getPath());
 			XmlReader xml = new XmlReader(chooser.getSelectedFile().getPath());
+			getInformationFromXML(xml);
+		}
+	}
+
+	private void getInformationFromXML(XmlReader xml) {
+
+//		resizeTable(Integer.parseInt(xml.getNumberofVariables()));
+		// CONFIGURATION
+		problemNameField.setText(xml.getProblemName());
+		problemDescArea.setText(xml.getProblemDesc());
+		emailField.setText(xml.getProblemEmail());
+		maxWaitTimeField.setText(xml.getMaxWaitTime());
+		numberOfVariablesField.setText(xml.getNumberofVariables());
+		
+		
+		//REGRAS
+
+		Object[][] tableDataTemp = new Object[xml.getRegras().size()][4];
+
+		for (int i = dtm1.getRowCount() - 1; i > -1; i--) {
+			dtm1.removeRow(i);
+		}
+
+		int i = 0;
+		for(Regra r: xml.getRegras()) {
+			tableDataTemp[i][0] = r.getName();
+			tableDataTemp[i][1] = r.getType();
+			tableDataTemp[i][2] = r.getLow();
+			tableDataTemp[i][3] = r.getHigh();
+			i++;
+		}
+		for (int count = 0; count < tableDataTemp.length; count++) {
+			dtm1.addRow(tableDataTemp[count]);
+		}
+		dtm1.fireTableDataChanged();
+
+		//JARS 
+		int x = 0;
+		for(Jar j : xml.getJarsList()) {
+			dtm2.setValueAt(j.getNome(), x, 0);
+			dtm2.setValueAt(j.getPath(), x, 1);	
+			x++;
 		}
 	}
 
