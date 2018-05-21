@@ -9,17 +9,23 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XmlReader {
+	
+	private String PATH;
 
-	public void XmlReader() {
+	public XmlReader(String PATH) {
+		this.PATH = PATH;
+		buildFile();
+	}
+
+	private void buildFile() {
 		try {
-			File file = new File("/Users/Ltfx/git/ES2-2018-IC1-24/Problem12018_5_20_15_13_48.xml");
+			File file = new File(PATH);
 
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance()
 					.newDocumentBuilder();
 
 			Document doc = dBuilder.parse(file);
 			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-
 			if (doc.hasChildNodes()) {
 				printNote(doc.getChildNodes());
 
